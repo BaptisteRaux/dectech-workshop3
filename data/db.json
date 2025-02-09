@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Smartphone XYZ",
+      "description": "Un super smartphone",
+      "price": 499.99,
+      "category": "electronics",
+      "stock": 10
+    }
+  ],
+  "orders": [],
+  "carts": {}
+}
