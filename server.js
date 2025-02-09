@@ -1,14 +1,11 @@
-// Import des dépendances nécessaires
 const express = require('express');
 const validators = require('./validators');
 const db = require('./db');
 const app = express();
 
-// Définition des ports possibles
 const PORTS = [3001, 3002, 3003];
 let currentPortIndex = 0;
 
-// Middlewares
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -47,7 +44,6 @@ app.post('/products',
     }
 );
 
-// Routes pour le panier
 app.get('/cart/:userId',
     validators.cartValidators.getCart,
     validators.validate,
@@ -77,7 +73,6 @@ app.post('/cart/:userId',
     }
 );
 
-// Routes additionnelles pour les produits
 app.get('/products/:id', 
     validators.productValidators.getById,
     validators.validate,
@@ -119,7 +114,6 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
-// Routes pour les commandes
 app.post('/orders',
     validators.orderValidators.create,
     validators.validate,
@@ -142,7 +136,6 @@ app.get('/orders/:userId', async (req, res) => {
     }
 });
 
-// Route additionnelle pour le panier
 app.delete('/cart/:userId/item/:productId', async (req, res) => {
     try {
         const cart = await db.removeFromCart(req.params.userId, req.params.productId);
@@ -152,7 +145,6 @@ app.delete('/cart/:userId/item/:productId', async (req, res) => {
     }
 });
 
-// Middleware de gestion d'erreurs (doit être le dernier middleware)
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({
@@ -161,7 +153,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Fonction pour démarrer le serveur
 function startServer() {
     const PORT = PORTS[currentPortIndex];
     app.listen(PORT, async () => {

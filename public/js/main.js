@@ -1,7 +1,6 @@
 let cart = { items: [], total: 0 };
-const userId = 'user123'; // Simulé pour l'exemple
+const userId = 'user123';
 
-// Charger les produits
 async function loadProducts() {
     const response = await fetch('/products');
     const products = await response.json();
@@ -24,7 +23,6 @@ async function loadProducts() {
     `).join('');
 }
 
-// Ajouter au panier
 async function addToCart(productId) {
     try {
         const response = await fetch(`/cart/${userId}`, {
@@ -39,14 +37,11 @@ async function addToCart(productId) {
     }
 }
 
-// Afficher le panier
 async function showCart() {
     const response = await fetch(`/cart/${userId}`);
     cart = await response.json();
     
     const cartItems = document.getElementById('cartItems');
-    
-    // Récupérer les détails des produits pour chaque item du panier
     const itemsWithDetails = await Promise.all(cart.items.map(async item => {
         const productResponse = await fetch(`/products/${item.productId}`);
         const product = await productResponse.json();
@@ -67,7 +62,6 @@ async function showCart() {
     new bootstrap.Modal(document.getElementById('cartModal')).show();
 }
 
-// Commander
 async function checkout() {
     try {
         const response = await fetch('/orders', {
@@ -93,10 +87,8 @@ async function checkout() {
     }
 }
 
-// Mettre à jour le compteur du panier
 function updateCartCount() {
     document.getElementById('cartCount').textContent = cart.items.length;
 }
 
-// Charger les produits au démarrage
-loadProducts(); 
+loadProducts();

@@ -13,11 +13,7 @@ class Database {
             const data = await fs.readFile(dbPath, 'utf8');
             this.data = JSON.parse(data);
         } catch (error) {
-            this.data = {
-                products: [],
-                orders: [],
-                carts: {}
-            };
+            this.data = { products: [], orders: [], carts: {} };
             await this.save();
         }
     }
@@ -26,7 +22,6 @@ class Database {
         await fs.writeFile(dbPath, JSON.stringify(this.data, null, 2));
     }
 
-    // Méthodes pour les produits
     async getProducts(filters = {}) {
         return this.data.products.filter(product => {
             if (filters.category && product.category !== filters.category) return false;
@@ -48,7 +43,6 @@ class Database {
         return newProduct;
     }
 
-    // Méthodes pour le panier
     async getCart(userId) {
         return this.data.carts[userId] || { items: [], total: 0 };
     }
@@ -67,11 +61,7 @@ class Database {
         if (existingItem) {
             existingItem.quantity += quantity;
         } else {
-            cart.items.push({
-                productId,
-                quantity,
-                price: product.price
-            });
+            cart.items.push({ productId, quantity, price: product.price });
         }
 
         cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -79,7 +69,6 @@ class Database {
         return cart;
     }
 
-    // Méthodes additionnelles pour les produits
     async updateProduct(id, updates) {
         const index = this.data.products.findIndex(p => p.id === id);
         if (index === -1) throw new Error('Product not found');
@@ -98,7 +87,6 @@ class Database {
         return { message: 'Product deleted successfully' };
     }
 
-    // Méthodes pour les commandes
     async createOrder(userId, items) {
         const order = {
             id: Date.now().toString(),
@@ -109,7 +97,6 @@ class Database {
             createdAt: new Date().toISOString()
         };
 
-        // Vérifier et ajouter chaque item
         for (const item of items) {
             const product = await this.getProductById(item.productId);
             if (!product) throw new Error(`Product ${item.productId} not found`);
@@ -122,7 +109,6 @@ class Database {
                 subtotal: product.price * item.quantity
             });
 
-            // Mettre à jour le stock
             product.stock -= item.quantity;
         }
 
@@ -136,7 +122,6 @@ class Database {
         return this.data.orders.filter(order => order.userId === userId);
     }
 
-    // Méthode additionnelle pour le panier
     async removeFromCart(userId, productId) {
         if (!this.data.carts[userId]) throw new Error('Cart not found');
         
@@ -154,5 +139,4 @@ class Database {
 }
 
 const db = new Database();
-
-module.exports = db; 
+module.exports = db;

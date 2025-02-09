@@ -51,4 +51,4 @@ module.exports = {
     cartValidators,
     orderValidators,
     validate
-}; 
+};

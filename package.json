@@ -1,7 +1,7 @@
 {
   "name": "dectech-workshop3",
   "version": "1.0.0",
-  "description": "Serveur Hello World pour l'exercice sur la redondance",
+  "description": "Dectech Workshop 3",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
