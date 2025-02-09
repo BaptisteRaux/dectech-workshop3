@@ -45,14 +45,25 @@ async function showCart() {
     cart = await response.json();
     
     const cartItems = document.getElementById('cartItems');
-    cartItems.innerHTML = cart.items.map(item => `
+    
+    // Récupérer les détails des produits pour chaque item du panier
+    const itemsWithDetails = await Promise.all(cart.items.map(async item => {
+        const productResponse = await fetch(`/products/${item.productId}`);
+        const product = await productResponse.json();
+        return {
+            ...item,
+            name: product.name
+        };
+    }));
+
+    cartItems.innerHTML = itemsWithDetails.map(item => `
         <div class="d-flex justify-content-between mb-2">
             <span>${item.name} (${item.quantity})</span>
-            <span>${item.price * item.quantity}€</span>
+            <span>${(item.price * item.quantity).toFixed(2)}€</span>
         </div>
     `).join('');
     
-    document.getElementById('cartTotal').textContent = cart.total;
+    document.getElementById('cartTotal').textContent = cart.total.toFixed(2);
     new bootstrap.Modal(document.getElementById('cartModal')).show();
 }
 

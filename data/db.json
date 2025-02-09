@@ -2,13 +2,134 @@
   "products": [
     {
       "id": "1",
-      "name": "Smartphone XYZ",
-      "description": "Un super smartphone",
-      "price": 499.99,
-      "category": "electronics",
-      "stock": 10
+      "name": "iPhone 14 Pro",
+      "price": 1299.99,
+      "stock": 9,
+      "category": "Smartphones",
+      "description": "Dernier iPhone avec appareil photo professionnel"
+    },
+    {
+      "id": "2",
+      "name": "Samsung Galaxy S23",
+      "price": 999.99,
+      "stock": 19,
+      "category": "Smartphones",
+      "description": "Flagship Android avec écran AMOLED"
+    },
+    {
+      "id": "3",
+      "name": "MacBook Pro M2",
+      "price": 1999.99,
+      "stock": 9,
+      "category": "Ordinateurs",
+      "description": "Ordinateur portable Apple avec puce M2"
+    },
+    {
+      "id": "4",
+      "name": "AirPods Pro",
+      "price": 249.99,
+      "stock": 30,
+      "category": "Audio",
+      "description": "Écouteurs sans fil avec réduction de bruit"
+    },
+    {
+      "id": "5",
+      "name": "iPad Air",
+      "price": 699.99,
+      "stock": 25,
+      "category": "Tablettes",
+      "description": "Tablette polyvalente avec puce M1"
+    },
+    {
+      "id": "6",
+      "name": "Sony WH-1000XM4",
+      "price": 349.99,
+      "stock": 18,
+      "category": "Audio",
+      "description": "Casque bluetooth haut de gamme"
+    },
+    {
+      "id": "7",
+      "name": "Dell XPS 15",
+      "price": 1799.99,
+      "stock": 12,
+      "category": "Ordinateurs",
+      "description": "Ordinateur portable Windows premium"
+    },
+    {
+      "id": "8",
+      "name": "Apple Watch Series 8",
+      "price": 399.99,
+      "stock": 22,
+      "category": "Montres connectées",
+      "description": "Montre connectée avec suivi santé avancé"
+    },
+    {
+      "id": "9",
+      "name": "Google Pixel 7",
+      "price": 599.99,
+      "stock": 16,
+      "category": "Smartphones",
+      "description": "Smartphone Google avec photo IA"
+    },
+    {
+      "id": "10",
+      "name": "Nintendo Switch OLED",
+      "price": 349.99,
+      "stock": 28,
+      "category": "Consoles",
+      "description": "Console de jeux hybride avec écran OLED"
     }
   ],
-  "orders": [],
-  "carts": {}
+  "orders": [
+    {
+      "id": "1739127517702",
+      "userId": "user123",
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 6,
+          "price": 1299.99,
+          "subtotal": 7799.9400000000005
+        },
+        {
+          "productId": "2",
+          "quantity": 1,
+          "price": 999.99,
+          "subtotal": 999.99
+        },
+        {
+          "productId": "3",
+          "quantity": 1,
+          "price": 1999.99,
+          "subtotal": 1999.99
+        }
+      ],
+      "total": 10799.92,
+      "status": "pending",
+      "createdAt": "2025-02-09T18:58:37.702Z"
+    }
+  ],
+  "carts": {
+    "user123": {
+      "items": [
+        {
+          "productId": "1",
+          "quantity": 6,
+          "price": 1299.99
+        },
+        {
+          "productId": "2",
+          "quantity": 1,
+          "price": 999.99
+        },
+        {
+          "productId": "3",
+          "quantity": 1,
+          "price": 1999.99
+        }
+      ],
+      "total": 10799.92
+    }
+  }
 }
