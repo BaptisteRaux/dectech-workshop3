@@ -78,6 +78,79 @@ class Database {
         await this.save();
         return cart;
     }
+
+    // Méthodes additionnelles pour les produits
+    async updateProduct(id, updates) {
+        const index = this.data.products.findIndex(p => p.id === id);
+        if (index === -1) throw new Error('Product not found');
+        
+        this.data.products[index] = { ...this.data.products[index], ...updates };
+        await this.save();
+        return this.data.products[index];
+    }
+
+    async deleteProduct(id) {
+        const index = this.data.products.findIndex(p => p.id === id);
+        if (index === -1) throw new Error('Product not found');
+        
+        this.data.products.splice(index, 1);
+        await this.save();
+        return { message: 'Product deleted successfully' };
+    }
+
+    // Méthodes pour les commandes
+    async createOrder(userId, items) {
+        const order = {
+            id: Date.now().toString(),
+            userId,
+            items: [],
+            total: 0,
+            status: 'pending',
+            createdAt: new Date().toISOString()
+        };
+
+        // Vérifier et ajouter chaque item
+        for (const item of items) {
+            const product = await this.getProductById(item.productId);
+            if (!product) throw new Error(`Product ${item.productId} not found`);
+            if (product.stock < item.quantity) throw new Error(`Insufficient stock for product ${product.id}`);
+
+            order.items.push({
+                productId: product.id,
+                quantity: item.quantity,
+                price: product.price,
+                subtotal: product.price * item.quantity
+            });
+
+            // Mettre à jour le stock
+            product.stock -= item.quantity;
+        }
+
+        order.total = order.items.reduce((sum, item) => sum + item.subtotal, 0);
+        this.data.orders.push(order);
+        await this.save();
+        return order;
+    }
+
+    async getOrders(userId) {
+        return this.data.orders.filter(order => order.userId === userId);
+    }
+
+    // Méthode additionnelle pour le panier
+    async removeFromCart(userId, productId) {
+        if (!this.data.carts[userId]) throw new Error('Cart not found');
+        
+        const cart = this.data.carts[userId];
+        const index = cart.items.findIndex(item => item.productId === productId);
+        
+        if (index === -1) throw new Error('Product not found in cart');
+        
+        cart.items.splice(index, 1);
+        cart.total = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        await this.save();
+        return cart;
+    }
 }
 
 const db = new Database();
